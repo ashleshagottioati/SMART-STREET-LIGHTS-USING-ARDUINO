@@ -1,0 +1,36 @@
+Code Explanation:
+Sensors:
+
+LDR: Detects ambient light (day/night).
+
+IR Sensor: Detects vehicles (digital input).
+
+Rain Sensor: Detects moisture (analog input).
+
+Logic Flow:
+
+Daytime: LEDs turn off automatically.
+
+Nighttime:
+
+Rain/Fog: Full brightness (255).
+
+Vehicle Detected: Full brightness for 5 seconds.
+
+No Activity: Dimmed to 20% brightness (PWM value 50).
+
+Customization:
+
+Adjust LDR_THRESHOLD and RAIN_THRESHOLD based on your sensor calibration.
+
+Modify delay(5000) to change how long lights stay bright after vehicle detection.
+
+Circuit Setup:
+Connect sensors to Arduino pins as defined.
+
+Use a PWM-enabled pin (e.g., Pin 3, 5, 6, 9, 10, or 11) for LED control.
+
+Power LEDs via a transistor or MOSFET for higher current handling.
+
+This code provides a basic framework for energy-efficient, context-aware street lighting. For advanced features (e.g., IoT integration), add Wi-Fi modules like ESP8266 and cloud communication logic.
+
