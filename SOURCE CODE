@@ -1,0 +1,45 @@
+// Define sensor and LED pins
+#define LDR_PIN A0      // Light Dependent Resistor
+#define RAIN_PIN A1     // Rain/Fog sensor
+#define IR_PIN 2        // IR Sensor (vehicle detection)
+#define LED_PIN 3       // PWM-enabled LED strip
+
+// Threshold values (adjust based on calibration)
+int LDR_THRESHOLD = 500;   // Day/Night threshold
+int RAIN_THRESHOLD = 300;  // Rain detection threshold
+
+void setup() {
+  pinMode(LDR_PIN, INPUT);
+  pinMode(RAIN_PIN, INPUT);
+  pinMode(IR_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);      // For debugging
+}
+
+void loop() {
+  int ldrValue = analogRead(LDR_PIN);
+  int rainValue = analogRead(RAIN_PIN);
+  bool vehicleDetected = digitalRead(IR_PIN);
+
+  // DAYTIME: Turn off LEDs
+  if (ldrValue > LDR_THRESHOLD) {
+    analogWrite(LED_PIN, 0);
+  } 
+  // NIGHTTIME: Adjust brightness
+  else {
+    // Rain/Fog: Max brightness
+    if (rainValue < RAIN_THRESHOLD) {
+      analogWrite(LED_PIN, 255);
+    }
+    // Vehicle detected: Bright mode
+    else if (vehicleDetected == HIGH) {
+      analogWrite(LED_PIN, 255); // Full brightness
+      delay(5000); // Keep bright for 5 sec after detection
+    }
+    // No vehicle: Dim mode (20% brightness)
+    else {
+      analogWrite(LED_PIN, 50); 
+    }
+  }
+  delay(100); // Short delay for stability
+}
